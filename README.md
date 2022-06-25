@@ -8,7 +8,7 @@ In the project directory, you can run:
 
 ### Setup required
 * Go to https://newsapi.org/ to create an account to get API Key
-* Setup the key as react environment in your solution as either in .env.local or set this in your console using set "REACT_APP_API_KEY={API_KEY}" && npm start
+* Setup the key in react environment in your solution as via .env.local file or set this in your console using set "REACT_APP_API_KEY={API_KEY}" && npm start
 * Secret is REACT_APP_API_KEY={API_KEY}
 ### `npm start`
 

@@ -1,14 +1,16 @@
-import React, { useEffect,useState } from 'react'
+import React, { useContext, useEffect,useState } from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './spinner';
 import PropTypes from 'prop-types'
 import InfiniteScroll from "react-infinite-scroll-component";
+import ThemeContext from '../context/ThemeContext'
 
 const News = (props) => {
     const [loading, setLoading] = useState(true);
     const [articles, setArticles] = useState([]);
     const [page, setPage] = useState(1);
     const [totalResults, setTotalResults] = useState(0);
+    const {theme} = useContext(ThemeContext);
     //document.title = `${capitalizeFirstLetter(props.category)} - News Monkey`;
     
     const capitalizeFirstLetter = (value) =>{
@@ -37,7 +39,7 @@ const News = (props) => {
     useEffect(() => {
       updateNews();
       document.title = `${capitalizeFirstLetter(props.category)} - News Monkey`
-    }, [])
+    }, [props.category])
     
     
     const handlePrevClick = async () => {
@@ -51,8 +53,9 @@ const News = (props) => {
     }
 
     const fetchMoreData = async () => {
+        console.log(props.baseUrl);
         let url = `${props.baseUrl}?category=${props.category}&country=${props.country}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
-
+  
         setPage(page+1);
         let response = await fetch(url);
         let data = await response.json();
@@ -61,14 +64,18 @@ const News = (props) => {
     }
 
     return (
-        <>
-            <h2 style={{ textAlign: 'center' , margin:'30px 0px' , marginTop: '90px'}}> News Monkey - Top {capitalizeFirstLetter(props.category)} Headlines</h2>
+        <div style={{backgroundColor: theme == 'light' ? '#fff' : '#333' }}>
+            <h2 style={{ textAlign: 'center' , margin:'30px 0px' , marginTop: '32px', 
+            background: theme == 'light' ? '#fff' : '#333' , 
+            color: theme == 'light' ? '#000' : '#fff'  }}
+            > Live News - Top {capitalizeFirstLetter(props.category)} Headlines</h2>
             {loading && <Spinner/>}
             <InfiniteScroll
                 dataLength={articles.length}
                 next={fetchMoreData}
                 hasMore={totalResults !== articles.length}
                 loader={<Spinner/>}
+                b
             >
 
                 <div className='container'>
@@ -89,14 +96,14 @@ const News = (props) => {
                     </div>
                 </div>
             </InfiniteScroll>     
-        </>
+        </div>
     );
 }
 
 
 
 News.defaultProps = {
-    country: "in",
+    country: "us",
     pageSize: 8,
     category: "general"
 };

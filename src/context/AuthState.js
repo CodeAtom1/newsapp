@@ -3,19 +3,16 @@ import { useState } from "react";
 
 
 const AuthState = (props)=>{
-    const s1 = {
+
+    const [state, setState] = useState({
         "name": "Gourav",
         "subscribed": true
-    }
-    const [state, setState] = useState(s1);
+    });
+
     const updateAuth = ()=>{
-        setTimeout(()=>{
-            setState({
-                    "name": "Larry",
-                    "subscribed": false
-                });
-        },1000);
+            setState((prevState) => ({...prevState, "subscribed": !state.subscribed}));
     }
+    
     return (
         <AuthContext.Provider value={{state,updateAuth}}>
             {props.children}

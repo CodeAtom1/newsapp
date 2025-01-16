@@ -1,14 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 import { NavLink } from "react-router-dom";
-import authContext from '../context/AuthContext';
+import AuthContext from '../context/AuthContext';
+import ThemeContext from '../context/ThemeContext';
 
 const NavBar = ({ title }) => {
-  const a = useContext(authContext);
-  // useEffect(() => {
-  //   a.updateAuth();
-  // }, []);
-  
 
+  const authContext = useContext(AuthContext);
+  const {theme, toggleTheme} = useContext(ThemeContext);
 
   return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
@@ -28,9 +26,16 @@ const NavBar = ({ title }) => {
               <li className="nav-item"><NavLink className="nav-link" to="/science">Science</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link" to="/sports">Sports</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link" to="/technology">Technology</NavLink></li>
+              {/* <li className="nav-item"><NavLink className="nav-link" to="/weather">Weather</NavLink></li>
+              <li className="nav-item"><NavLink className="nav-link" to="/weatherClassWidget">Weather Class Widget</NavLink></li>
+              <li className="nav-item"><NavLink className="nav-link" to="/editProfile">Edit Profile</NavLink></li> */}
             </ul>
-            <span style={{color:"white", display: 'inline-block'}}> Welcome {a.state.name} is { a.state.subscribed ? "Subscribed" : "Not subscribed"} !</span>
-            {a.state.subscribed && <button className="btn btn-primary" onClick={ () =>alert('you clicked')}> Logout</button>}
+            {/* <span style={{color:"white", display: 'inline-block'}}> Welcome {authContext.state.name} is { authContext.state.subscribed ? "Subscribed" : "Not subscribed"} !</span>
+            {authContext.state.subscribed && <button className="btn btn-primary" onClick={ () => authContext.updateAuth() }> Logout</button>}
+            {!authContext.state.subscribed && <button className="btn btn-primary" onClick={ () => authContext.updateAuth() }> Login</button>} */}
+            <button className={`btn btn-primary ${ theme == 'light' ? 'btn-dark' : 'btn-light' }`} onClick={toggleTheme} >
+              <i className={`bi bi-sun text-${ theme == 'light' ? 'btn-dark' : 'btn-light' }`}></i>
+            </button>
           </div>
         </div>
       </nav>
